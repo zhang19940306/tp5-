@@ -1,0 +1,113 @@
+{{extend name="public/base"}}
+
+{{block name="content"}}
+<div class="row">
+	<div class="col-md-5">
+		<img src="__STATIC__/upload/{{$res.image}}"  style="width: 100%; text-align: center;">
+	</div>
+	<div class="col-md-7">
+		
+		<h1>{{$res.title}}</h1>
+		<h3>价格:<span class="text-danger">{{$res.price}}</span></h3>
+		<h5>库存:{{$res.stock}}</h5>
+		<h5>浏览量:{{$res.view}}</h5>
+		<h5>数量:<input id="num" type="text" name="num" style="width: 30%px; display: inline-block;" value="1" class="form-control"></h5>
+		{{if condition="session('?user')"}}
+			<button id="buyNow" class="btn btn-success">立即购买</button>
+			<button id="addCart" class="btn btn-primary">加入购物车</button>
+		{{else /}}
+			<a href="{{:url('index/user/login')}}" class="btn btn-success">登录</a>
+			<a href="{{:url('index/user/register')}}" class="btn btn-primary">注册</a>
+		{{/if}}
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-md-4">
+		<table class="">
+			<tr>
+				<td>最新上架</td>
+			</tr>
+			<tr>
+				<td><img src=""></td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-8">
+		<ul class="nav nav-pills">
+            <li class="active"><a href="#content" data-toggle="tab">商品详情</a></li>
+            
+            <li><a href="#7" data-toggle="tab">商品评论<span class="badge">{{$res.comment}}</span></a></li>
+            
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active fade in" id="5">{{$res.content}}</div>
+            
+            <div class="tab-pane fade" id="7">
+            	
+            	<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">来说两句</h3>
+				</div>
+				<div class="panel-body">
+					{{if condition="$Think.session.user"}}
+					<form action="{{:url('index/comment/add')}}" method="post" class="form-inline">
+						<div class="form-group">
+							<label class="sr-only">内容</label>
+							<input type="text" name="comment" value="" class="form-control" placeholder="请输入评论内容">
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="comment_id" value="{{$res.id}}">
+							<input type="hidden" name="comment_type" value="Product">
+							<input type="submit" name="" value="发表评论" class="btn btn-primary">
+						</div>
+					</form>
+					{{else /}}
+					<a href="{{:url('index/user/login')}}" class="btn btn-success">登录</a>
+					<a href="{{:url('index/user/register')}}">注册</a>
+					{{/if}}
+			{{volist name="comments" id="vo"}}
+			<div class="panel panel-info">
+				<div class="panel-body">
+					{{$vo.comment}}
+				</div>
+				<div class="panel-footer">
+					{{$vo->author->username}} 发表于 {{$vo.created_at}}
+				</div>
+			</div>
+			{{/volist}}
+			{{$comments->render()}}
+			</div>
+			</div>
+            </div>
+        </div>
+	</div>
+</div>
+<hr>
+
+
+{{/block}}
+{{block name="js"}}
+<script type="text/javascript">
+	$('#addCart').click(function(){
+		$.ajax({
+			url:'{{:url("index/cart/add")}}',
+			type:'get',
+			dataType: 'json',
+			data: {'product_id':{{$res.id}},'number':$('#num').val()},
+			success:function(res){
+			console.log(res);
+			if (res) {
+				alert('添加成功');
+			}else{
+				alert('添加失败');
+			}
+		}
+		});
+	})	;
+	//直接购买
+	$('#buyNow').click(function() {
+		location.href='{{:url("index/order/confirm")}}?pids={{$res.id}}&nums='+$('#num').val();
+	});
+</script>
+{{/block}}

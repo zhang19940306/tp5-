@@ -1,0 +1,18 @@
+{{extend name="public/base"}}
+{{block name="content"}}
+<div class="row">
+	<div class="col-sm-3">
+		{{include file="user/left"}}
+	</div>
+	<div class="col-sm-9">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">用户信息</h3>
+			</div>
+			<div class="panel-body">
+				<h3>你好:{{$user.username}}</h3>
+			</div>
+		</div>
+	</div>
+</div>
+{{/block}}

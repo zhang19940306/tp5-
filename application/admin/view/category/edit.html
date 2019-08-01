@@ -1,0 +1,49 @@
+{{extend name="public/base"}}
+{{block name="content"}}
+<form action="{{:url('admin/category/update')}}" method="post" enctype="multipart/form-data">
+	<table class="table  table-bordered">
+                                    <tr>
+                                        <td class="col-xs-2">分类名称</td>
+                                        <td>
+                                            <div class="col-xs-4">
+                                                
+                                                <input type="text" name="category_name" class="form-control" placeholder="请输入分类名称" value="{{$res.category_name}}" >
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-2">排序数字</td>
+                                        <td>
+                                            <div class="col-xs-4">
+                                                
+                                                <input type="text" name="sort_number" class="form-control" value="{{$res.sort_number}}">
+                                                
+                                            </div>
+                                            <span class="line-height-34 light-grey">排序数字，数字越大越靠前（默认值为1）</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                        	<input type="hidden" name="id" value="{{$res.id}}">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                确认修改
+                                            </button>
+                                            <button class="btn" type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                放弃添加
+                                            </button>
+                                        </td>
+                                    </tr>
+                            </table>
+</form>
+
+
+
+
+
+
+
+
+{{/block}}

@@ -1,0 +1,66 @@
+
+	{{load file="__STATIC__/bootstrap/css/bootstrap.css"}}
+
+	
+      {{extend name="public/base"}}
+      {{block name="title"}}文章列表{{/block}}
+      {{block name="content"}}
+<div class="row">
+    <div class="col-sm-8">
+        {{volist name="list" id="vo"}}
+        <div class="panel panel-info">
+           <div class="panel-heading">
+               <a href="{{:url('index/article/read',['id'=>$vo.id])}}">{{$vo.subject|}}</a>
+           </div>
+           <div class="panel-body">
+               
+                  {{$vo.content|substr=0,150}}
+               
+           </div>
+           <div class="panel-footer">
+               {{$vo->author->username}} 发表于 {{$vo.created_at}} <span class="glyphicon glyphicon-eye-open"></span> {{$vo.browse_times}} <span class="glyphicon glyphicon-comment"></span> {{$vo.comment_number}} <span class="glyphicon glyphicon-heart text-danger"></span> 425
+           </div>
+        </div>
+        {{/volist}}
+        
+        {{$list->render()}}
+    </div>
+    <div class="col-sm-4">
+        <div class="page-header" style="margin: 0;">
+            <h3 style="margin: 10px 0 0 0;">阅读排行榜</h3>
+        </div>
+        <ul class="list-group">
+          {{volist name="list1" id="vo"}}
+              <li class="list-group-item">
+                <a href="#">{{$vo.subject}}</a>
+                <span class="badge">{{$vo.browse_times}}</span>
+            </li>
+          {{/volist}}
+        </ul>
+        <div class="page-header" style="margin: 0;">
+            <h3 style="margin: 10px 0 0 0;">最新排行榜</h3>
+        </div>
+        <ul class="list-group">
+            {{volist name="list2" id="vo"}}
+              <li class="list-group-item">
+                 <a href="#">{{$vo.subject}}</a>
+                 
+              </li>
+            {{/volist}}
+        </ul>
+    </div>
+</div>
+    
+
+      {{/block}}
+ 
+
+
+
+
+
+
+
+
+	 {{load file="__JS__/jquery.js"}}
+	 {{load file="__STATIC__/bootstrap/js/bootstrap.js"}}

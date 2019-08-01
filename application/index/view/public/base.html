@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{block name="title"}}Bootstrap{{/block}}</title>
+    {{load file="__STATIC__/bootstrap/css/bootstrap.css"}}
+    {{block name="css"}}{{/block}}
+</head>
+<body>
+    <div class="container">
+        {{include file="public/header"}}
+            
+        {{block name="content"}} {{/block}}
+
+        {{include file="public/footer"}}
+    </div>
+    
+    {{load file="__JS__/jquery.js"}}
+    {{load file="__STATIC__/bootstrap/js/bootstrap.js"}}
+    {{block name="js"}}{{/block}}
+</body>
+</html>

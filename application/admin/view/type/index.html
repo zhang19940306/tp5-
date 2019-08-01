@@ -1,0 +1,40 @@
+{{extend name="public/base"}}
+      {{block name="title"}}{{/block}}
+      {{block name="content"}}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 class="sub-header">商品分类列表</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <tr>
+                    <td>ID</td>
+                    <td>分类名称</td>
+                    <td>排序</td>
+                    
+                    <td>是否上线</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+                {{volist name="ts" id="vo"}}
+                <tr>
+                    
+                    <td>{{$vo.id}}</td>
+                    <td>{{:str_repeat('__',$vo.level)}}{{$vo.title}}</td>
+                    <td>{{$vo.sort}}</td>
+                    
+                    <td>{{$vo.online}}</td>
+                    <td>{{$vo.create_time}}</td>
+
+                    <td>
+                        <a href="" class="btn btn-success" target="_blank">查看</a>
+                        <a href="{{:url('admin/type/edit',['id'=>$vo.id])}}" class="btn btn-primary">编辑</a>
+                        <a href="" class="btn btn-danger" onclick="return confirm('确认删除吗？？')">删除</a>
+                    </td>
+                   
+                </tr>
+                {{/volist}} 
+            </table>
+            
+          </div>
+        </div>
+        {{/block}}

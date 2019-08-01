@@ -1,0 +1,39 @@
+{{extend name="public/base"}}
+      {{block name="title"}}{{/block}}
+      {{block name="content"}}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 class="sub-header">分类列表</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <tr>
+                    <td>ID</td>
+                    <td>分类名称</td>
+                    <td>排序</td>
+                    <td>文章数</td>
+                    <td>创建时间</td>
+                    <td>操作菜单</td>
+                </tr>
+                {{volist name="data" id="vo"}}
+                <tr>
+                    
+                    <td>{{$vo.id}}</td>
+                    <td>{{$vo.category_name}}</td>
+                    <td>{{$vo.sort_number}}</td>
+                    <td>{{$vo->articleNum()}}</td>
+                    
+                    <td>{{$vo.created_at}}</td>
+
+                    <td>
+                        
+                        <a href="{{:url('admin/article/edit',['id'=>$vo.id])}}" class="btn btn-primary">查看</a>
+                        <a href="{{:url('admin/category/edit',['id'=>$vo.id])}}" class="btn btn-danger" >编辑</a>
+                    </td>
+                   
+                </tr>
+                {{/volist}} 
+            </table>
+            {{$data->render()}}
+          </div>
+        </div>
+        {{/block}}

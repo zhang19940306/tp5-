@@ -1,0 +1,157 @@
+ {{extend name="public/base"}}
+ {{block name="css"}}
+	<style type="text/css">
+		.product-nav{
+			background-color: #ffffff;
+		}
+		.product-nav>ul{
+			padding: 0;
+			position: relative;
+		}
+		.product-nav li{
+			list-style: none;
+			height: 38px;
+			line-height: 38px;
+			border: 1px solid #DDD;
+		}
+		.product-nav .nav-1{
+			display: block;
+		}
+		.product-nav .nav-2{
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 100%;
+			z-index: 999;
+			width: 800px;
+			background-color: #ffffff;
+			padding: 0;
+			border: 1px solid #CCCCCC;
+		}
+		.product-nav .nav-2 li{
+			padding: 0 10px;
+			position: relative;
+		}
+		.product-nav .nav-3{
+			position: absolute;
+			top: 0;
+			padding: 0;
+			margin-left: 80px;
+		}
+		.product-nav .nav-3 li{
+			border: 0px;
+		}
+		.product-nav a {
+			color: #666;
+			text-decoration: none;
+			padding: 0 10px;
+		}
+	</style>
+ {{/block}}
+ {{block name="title"}}首页{{/block}}
+ {{block name="content"}}
+ <div class="row">
+ 	<div class="col-sm-3">
+ 		<div class="product-nav">
+ 			<ul>
+
+ 				{{volist name="product_nav" id="n1"}}
+ 				<li>
+ 					<a href="{{:url('index/type/read',['id'=>$n1.id])}}" class="nav-1">{{$n1.title}}</a>
+ 					{{if condition="isset($n1['_children'])"}}
+ 					
+ 					<ul class="nav-2">
+ 						{{volist name="n1._children" id="n2"}}
+ 						<li><a href="{{:url('index/type/read',['id'=>$n2.id])}}"><strong>{{$n2.title}} &gt;</strong></a>
+						{{if condition="isset($n2['_children'])"}}
+						<ul class="nav-3 list-inline list-unstyled">
+							{{volist name="n2._children" id="n3"}}
+							<li><a href="{{:url('index/type/read',['id'=>$n3.id])}}">{{$n3.title}}</a>
+							{{/volist}}
+						</ul>
+						{{/if}}
+ 						</li>
+ 						{{/volist}}
+ 					</ul>
+
+ 					{{/if}}
+ 				</li>
+
+ 				{{/volist}}
+ 			</ul>
+ 		</div>
+ 	</div>
+ 	<div class="col-sm-9">
+ 		<div class="container" style="width: 100%;">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+        	{{volist name="data" id="vo"}}
+          <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" {{if condition='$key===0'}}class="active"{{/if}}></li>
+        	{{/volist}}
+          
+        </ol>
+        <div class="carousel-inner" role="listbox">
+        	{{volist name="data" id="vo"}}
+          <div class="item {{if condition='$key===0'}}active{{/if}}">
+            <a href="{{:url('index/product/read',['id'=>$vo.id])}}"><img src="__STATIC__/upload/{{$vo.image}}" alt="{{$vo.title}}" class="d1"></a>
+          </div>
+          {{/volist}}
+
+          
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">上一页</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">下一页</span>
+        </a>
+      </div>
+    </div>
+ 	</div>
+ </div>
+ <div class="row">
+ 	<h4 class="page-header text-primary">最新上架</h4>
+ 	{{volist name="new" id="vo"}}
+ 	<div class="col-sm-3">
+ 		<a href="{{:url('index/product/read',['id'=>$vo.id])}}"><img src="__STATIC__/upload/{{$vo.image}}" style="width: 100%; height: 300px;"></a>
+ 	</div>
+ 	{{/volist}}
+</div>
+<div class="row">
+	<h4 class="page-header text-danger">热门商品</h4>
+	{{volist name="hotext" id="vo"}}
+	<div class="col-sm-3">
+		<a href="{{:url('index/product/read',['id'=>$vo.id])}}"><img src="__STATIC__/upload/{{$vo.image}}" style="width: 100%;height: 300px;"></a>
+	</div>
+	{{/volist}}
+</div>
+{{/block}}
+{{block name="js"}}
+	<script type="text/javascript">
+        $(function(){
+            $('.d1').css('width','100%')
+            $('.d1').css('height','500px')
+        }); 
+
+         $(function() {
+        $('.nav-1').hover(function() {
+                $(this).next().show();
+                $(this).css('background-color', 'aquamarine');
+            },
+
+            function() {
+                $(this).next().hover(function(){
+                	$(this).show();
+                },function(){
+                	$(this).hide();
+                });
+               $(this).next().hide();
+               $(this).css('background-color','#fff'); 
+            }
+        );
+        
+    });       
+    </script>
+{{/block}}

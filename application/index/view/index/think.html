@@ -1,0 +1,43 @@
+      {{extend name="public/base"}}
+      {{block name="title"}}下载内容{{/block}}
+      {{block name="content"}}
+	<h3>{{$hello}}</h3><br>
+	{{$user['username']}} {{$user.created}}<br>
+	{{$obj->username}} {{$obj:created|date='Y-m-d H:i:s',###}}<br>
+	{{$hello|strtoupper}}<br>
+	{{$hello|strtolower}}<br>
+	{{$hello|ucfirst}}<br>
+	{{$hello|substr=0,2}}<br>
+	{{$user['username']|mb_substr=1}}<br>
+	{{$Think.THINK_VERSION}}<br>
+	{{$Think.get.username}}<br>
+	{{$Think.config.paginate.list_rows}}<br>
+	{{$Request.module}}<br>
+	{{$Request.controller}}<br>
+	{{$Request.action}}<br>
+
+	{{if condition="$Think.config.app_debug"}}
+	   已经开启
+	{{else/}}
+	 未开启
+	 {{/if}}
+	 <br>
+	 <table border="2">
+	 	<tr>
+	 		<td>当前索引</td>
+	 		<td>用户名</td>
+	 		<td>时间</td>
+	 	</tr>
+	 {{volist name="users" id="vo"}}
+	 
+			<tr {{if condition="$key==0"}}bgcolor="red"{{/if}} >
+				<td>{{$key}}</td>
+				<td>{{$vo.username}}</td>
+				<td>{{$vo.created|date='Y-m-d H:i:s',###}}</td>
+			</tr>
+			
+	 {{/volist}}
+	 </table>
+	<br>
+	 {{:strtoupper($hello)}}
+	{{/block}}

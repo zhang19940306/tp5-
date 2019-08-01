@@ -1,0 +1,48 @@
+{{extend name="public/base"}}
+{{block name="content"}}
+<div class="row">
+	<div class="col-sm-3">
+		{{include file="user/left"}}
+	</div>
+	<div class="col-sm-9">
+		{{volist name="list" id="vo"}}
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">订单号:{{$vo.order_sn}}</h3>
+				<span class="pull-right">下单时间:{{$vo.create_time}}</span>
+			
+			</div>
+			<div class="panel-body">
+				<table class="table table-bordered table-condensed">
+					<tr>
+						<td>商品</td>
+						<td>单价</td>
+						<td>数量</td>
+						<td>总价</td>
+						<td>操作</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="__STATIC__/upload/{{$vo->product->image}}" style="width: 100px;height: 100px;">
+						</td>
+						<td style="vertical-align: middle;">
+							{{$vo.product_price}}
+						</td>
+						<td style="vertical-align: middle;">
+							{{$vo.product_number}}
+						</td>
+						<td style="vertical-align: middle;">
+							{{$vo.order_amount}}
+						</td>
+						<td style="vertical-align: middle;">
+							<a href="#" class="btn btn-danger">订单详情</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		{{/volist}}
+		{{$list->render()}}
+	</div>
+</div>
+{{/block}}

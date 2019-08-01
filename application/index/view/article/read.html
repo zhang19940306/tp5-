@@ -1,0 +1,95 @@
+{{load file="__STATIC__/bootstrap/css/bootstrap.css""}}
+{{extend name="public/base"}}
+{{block name="title"}}文章内容{{/block}}
+{{block name="content"}}
+<div class="row">
+	<div class="col-sm-8">
+		
+		<div class="panel-success">
+			<!-- 文章头部 -->
+			<div class="panel-heading">
+				<span>{{$res.subject}}</span>
+			</div>
+			<!--文章内容 -->
+			<div class="panel-body">
+				<!-- 文章内容 -->
+				{{if condition="$res.subject_picture"}}
+				<img src="__STATIC__/upload/{{$res.subject_picture}}" class="img-responsive">
+				{{/if}}
+				{{$res.content|nl2br}}
+			</div>
+			<!-- 文章尾部 -->
+
+			
+			<div class="panel-footer">
+				张锦涛 发表于{{$res.created_at}} <span class="glyphicon glyphicon-eye-open"></span>{{$res.browse_times}} <span class="glyphicon glyphicon-comment"></span>{{$res.comment_number}}
+			</div>
+			<hr>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">来说两句</h3>
+				</div>
+				<div class="panel-body">
+					{{if condition="$Think.session.user"}}
+					<form action="{{:url('index/comment/add')}}" method="post" class="form-inline">
+						<div class="form-group">
+							<label class="sr-only">内容</label>
+							<input type="text" name="comment" value="" class="form-control" placeholder="请输入评论内容">
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="comment_id" value="{{$res.id}}">
+							<input type="hidden" name="comment_type" value="Article">
+							<input type="submit" name="" value="发表评论" class="btn btn-primary">
+						</div>
+					</form>
+					{{else /}}
+					<a href="{{:url('index/user/login')}}" class="btn btn-success">登录</a>
+					<a href="{{:url('index/user/register')}}">注册</a>
+					{{/if}}
+				</div>
+			</div>
+			<hr>
+			{{volist name="comments" id="vo"}}
+			<div class="panel panel-info">
+				<div class="panel-body">
+					{{$vo.comment}}
+				</div>
+				<div class="panel-footer">
+					{{$vo->author->username}} 发表于 {{$vo.created_at}}
+				</div>
+			</div>
+			{{/volist}}
+			{{$comments->render()}}
+		</div>
+		
+	</div>
+
+	<div  class="col-sm-4">
+		<div class="page-header" style="margin: 0;">
+			<h3 style="margin: 10px 0 0 0">阅读排行榜</h3>
+		</div>
+		<ul class="list-group">
+			{{volist name="list1" id="vo"}}
+			<li class="list-group-item">
+				<a href="">{{$vo.subject}}</a>
+				<span class="badge">{{$vo.browse_times}}</span>
+			</li>
+			{{/volist}}
+		</ul>
+		<div class="page-header" style="margin: 0;">
+			<h3 style="margin: 10px 0 0 0">最新排行榜</h3>
+		</div>
+		<ul class="list-group">
+			{{volist name="list2" id="vo"}}
+			<li class="list-group-item">
+				<a href="">{{$vo.subject}}</a>
+				<span class="badge"></span>
+			</li>
+			{{/volist}}
+		</ul>
+	</div>
+</div>
+
+{{/block}}
+{{load file="__JS__/jquery.js"}}
+{{load file="__STATIC__/bootstrap/js/bootstrap.js"}}

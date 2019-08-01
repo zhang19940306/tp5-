@@ -1,0 +1,105 @@
+{{extend name="public/base"}}
+      {{block name="title"}}{{/block}}
+      {{block name="content"}}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 class="sub-header">商品列表</h2>
+          <form  method="get" class="form-inline">
+            <div class="form-group">
+                <label class="sr-only">标题</label>
+                <input type="text" name="title" class="form-control" placeholder="商品名称" style="width: 100px;" value="{{:input('param.title')}}">
+            </div>
+            <div class="form-group">
+                <input type="submit" name="" value="搜索" class="btn btn-primary">
+                
+            </div>
+            <div class="form-group">
+                <label class="sr-only">是否推荐</label>
+                <select name="recommend" class="form-control">
+                   <option value="">是否推荐</option> 
+                    <option value="1" {{if condition="input('param.recommend')==='1'"}}selected{{/if}}>推荐</option>
+                    <option value="0" {{if condition="input('param.recommend')==='0'"}}selected{{/if}}>不推荐</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="" value="搜索" class="btn btn-primary">
+                
+            </div>
+            <div class="form-group">
+                <label class="sr-only">是否上线</label>
+                <select name="online" class="form-control">
+                   <option value="">是否上线</option> 
+                    <option value="1" {{if condition="input('param.online')==='1'"}}selected{{/if}}>上线</option>
+                    <option value="0" {{if condition="input('param.online')==='0'"}}selected{{/if}}>下线</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="" value="搜索" class="btn btn-primary">
+                
+            </div>
+            <div class="form-group">
+                <label class="sr-only">价格</label>
+                <select name="price" class="form-control">
+                   <option value="" {{if condition="input('param.online')==='>=min()'"}}selected{{/if}}>价格</option> 
+                    <option value="" >最低价</option>
+                    <option value="" >最高价</option>
+                    <option value="" >所有价格</option>
+                </select>
+               <div class="form-group">
+                <label class="sr-only"></label>
+                <input type="text" name="min" class="form-control" placeholder="最低价格" style="width: 100px;" value="{{:input('param.title')}}">
+                </div>-
+                <div class="form-group">
+                <label class="sr-only"></label>
+                <input type="text" name="max" class="form-control" placeholder="最高价格" style="width: 100px;" value="{{:input('param.title')}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="" value="搜索" class="btn btn-danger">
+                
+            </div>
+        </form>
+
+        <hr>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <tr>
+                    <td>ID</td>
+                    <td>发布人</td>
+                    <td>商品分类</td>
+                    <td>商品名称</td>
+                    <td>商品价格</td>
+                    <td>商品库存</td>
+                    <td>是否上线</td>
+                    <td>是否推荐</td>
+                    
+                    <td>添加时间</td>
+                    <td>操作</td>
+                </tr>
+                {{volist name="data" id="vo"}}
+                <tr>
+                    
+                    <td>{{$vo.id}}</td>
+                    <td>{{$vo->author->username}}</td>
+                    <td>{{$vo->type->title}}</td>
+                    <td>{{$vo.title}}</td>
+                    <td>{{$vo.price}}</td>
+                    <td>{{$vo.stock}}</td>
+                    <td>{{$vo.online}}</td>
+                    <td>{{$vo.recommend}}</td>
+                    
+                    <td>{{$vo.create_time}}</td>
+
+                    <td>
+                        <a href="{{:url('index/product/read',['id'=>$vo.id])}}" class="btn btn-success" target="_blank">查看</a>
+                        <a href="{{:url('admin/product/edit',['id'=>$vo.id])}}" class="btn btn-primary">编辑</a>
+                        <a href="{{:url('admin/product/delete',['id'=>$vo.id])}}" class="btn btn-danger" onclick="return confirm('确认删除吗？？')">删除</a>
+                    </td>
+                   
+                </tr>
+                {{/volist}} 
+            </table>
+            {{$data->render()}}
+          </div>
+        </div>
+        {{/block}}

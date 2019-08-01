@@ -1,0 +1,26 @@
+<div class="panel-group" id=pg>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<a href="#user" data-toggle="collapse" data-parent="#pg">用户信息</a>
+		</div>
+		<div id="user" class="collapse in">
+			<ul class="list-group" style="margin: 0;">
+				<li class="list-group-item"><a href="{{:url('index/user/center')}}">基本信息</a></li>
+				<li class="list-group-item"><a href="{{:url('index/address/index')}}">收货地址</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<a href="#order" data-toggle="collapse" data-parent="#pg">订单信息</a>
+		</div>
+		<div id="order" class="collapse in">
+			<ul class="list-group" style="margin: 0;">
+				<li class="list-group-item"><a href="{{:url('index/order/index')}}">订单列表</a></li>
+				<li class="list-group-item">
+					<a href="{{:url('index/cart/index')}}">购物车</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

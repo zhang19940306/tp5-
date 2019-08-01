@@ -1,0 +1,65 @@
+{{extend name="public/base"}}
+{{block name="content"}}
+<h2>编辑商品</h2>
+<form action="{{:url('admin/type/update')}}" method="post" enctype="multipart/form-data">
+	<table class="table  table-bordered">
+                                    <tr>
+                                        <td class="col-xs-2">商品分类名称</td>
+                                        <td>
+                                            <div class="col-xs-4">
+                                                
+                                                <input type="text" name="title" class="form-control" placeholder="请输入商品名称" value="{{$data.title}}" >
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-2">排序数字</td>
+                                        <td>
+                                            <div class="col-xs-4">
+                                                
+                                                <input type="text" name="sort" class="form-control" value="{{$data.id}}">
+                                                
+                                            </div>
+                                            <span class="line-height-34 light-grey">排序数字，数字越大越靠前（默认值为1）</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-2">父类</td>
+                                        <td>
+                                            <div class="col-xs-4">
+                                                
+                                                
+                                                <select name="pid" class="form-control" disabled>
+                                                    <option value="0" >顶级分类</option>
+                                                    {{volist name="ts" id="vo"}}
+                                                    <option value="{{$vo.id}}"{{if condition="$vo.id==$data.pid"}}selected{{/if}}>{{:str_repeat('__',$vo.level)}}{{$vo.title}}</option>
+                                                    {{/volist}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+        <td>是否上线</td>
+        <td>
+            <input type="radio" name="online" value="0"{{if condition="$data->getData('online')==0"}}checked{{/if}}> 下线<br>
+            <input type="radio" name="online" value="1" {{if condition="$data->getData('online')==1"}}checked{{/if}}>上线
+            
+        </td>
+    </tr>   
+                                    <tr>
+                                        <td colspan="2">
+                                        	<input type="hidden" name="id" value="{{$data.id}}">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                确认添加
+                                            </button>
+                                            <button class="btn" type="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                放弃添加
+                                            </button>
+                                        </td>
+                                    </tr>
+                            </table>
+</form>
+{{/block}}

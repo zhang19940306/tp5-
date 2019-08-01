@@ -1,0 +1,64 @@
+<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" style="padding: 0;">
+          <div class="panel-group" id="pg">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                   <a href="#user" data-toggle="collapse" data-parent="#pg">
+                       用户管理
+                   </a> 
+                </div>
+                <div id="user" class="collapse {{if condition='in_array($Request.controller,["user"])'}}in{{/if}}">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="">用户列表</a></li>
+                       <li class="list-group-item"><a href="#">添加用户</a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                   <a href="#article" data-toggle="collapse" data-parent="#pg">
+                       文章管理
+                   </a> 
+                </div>
+                <div id="article" class="collapse {{if condition='in_array($Request.controller,["Category","Article"])'}}in{{/if}}">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="{{:url('admin/article/index')}}">文章列表</a></li>
+                       <li class="list-group-item"><a href="{{:url('admin/article/add')}}">发表文章</a></li>
+                       <li class="list-group-item"><a href="{{:url('admin/category/index')}}">分类列表</a></li>
+                       <li class="list-group-item"><a href="{{:url('admin/category/create')}}">添加列表</a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                   <a href="#admin" data-toggle="collapse" data-parent="#pg">
+                       管理员管理
+                   </a> 
+                </div>
+                <div id="admin" class="collapse {{if condition='in_array($Request.controller,["admin"])'}}in{{/if}}">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="{{:url('admin/admin/index')}}">管理员列表</a></li>
+                       <li class="list-group-item"><a href="#">添加管理员</a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                   <a href="#pro" data-toggle="collapse" data-parent="#pg">
+                       商品管理
+                   </a> 
+                </div>
+                <div id="pro" class="collapse {{if condition='in_array($Request.controller,["Type","Product"])'}}in{{/if}}">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="{{:url('admin/type/index')}}">商品分类列表</a></li>
+                       <li class="list-group-item"><a href="{{:url('admin/type/create')}}">添加商品分类</a></li> 
+                       <li class="list-group-item"><a href="{{:url('admin/product/create')}}">添加商品</a></li> 
+                       <li class="list-group-item"><a href="{{:url('admin/product/index')}}">商品列表</a></li> 
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>

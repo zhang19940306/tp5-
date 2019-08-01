@@ -1,0 +1,29 @@
+{{load file="__STATIC__/bootstrap/css/bootstrap.css"}}
+
+
+<div class="container">
+
+      <form class="form-signin" action="{{:url('admin/admin/doLogin')}}" method="post" enctype="multipart/form-data">
+        <h2 class="form-signin-heading">登录页面</h2>
+        <label for="inputEmail" class="sr-only">账号</label>
+        <input type="text" id="zh" class="form-control" placeholder="账号" required autofocus name="username">
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
+        <label for="inputPassword" class="sr-only">验证码</label>
+        <input type="text" id="captcha" class="form-control" placeholder="captcha" required name="captcha">
+        <img src="{{:captcha_src()}}" id="captcha" onclick="this.src=this.src+'?'+Math.random()" style="width: 100%;">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me" name="rem"> 记住我
+          </label>
+        </div>
+        <button class="btn btn-lg btn-danger btn-block" type="submit">登录</button>
+
+      </form>
+
+    </div> 
+
+
+    {{load load file="__STATIC__/css/signin.css"}}
+    {{load file="__JS__/jquery.js"}}
+   {{load file="__STATIC__/bootstrap/js/bootstrap.js"}}

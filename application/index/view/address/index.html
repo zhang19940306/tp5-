@@ -1,0 +1,223 @@
+{{extend name="public/base"}}
+{{block name="content"}}
+<div class="row">
+	<div class="col-sm-3">
+		<div class="panel-group" id="pg">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                   <a href="#user" data-toggle="collapse" data-parent="#pg">
+                       用户信息
+                   </a> 
+                </div>
+                <div id="user" class="collapse">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="{{:url('index/user/center')}}">基本信息</a></li>
+                       <li class="list-group-item"><a href="{{:url('index/address/index')}}">收货地址</a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                   <a href="#article" data-toggle="collapse" data-parent="#pg">
+                       订单中心
+                   </a> 
+                </div>
+                <div id="article" class="collapse">
+                    <ul class="list-group" style="margin: 0;">
+                       <li class="list-group-item"><a href="">订单列表</a></li>
+                       <li class="list-group-item"><a href="">购物车</a></li> 
+                    </ul>
+                </div>
+	       </div>
+	   </div>
+	</div>
+	<div class="col-sm-9">
+		<div class="panel panel-success">
+			<div class="panel panel-heading">
+				<h3 class="panel-title">新增收货地址</h3>
+			</div>
+			<div class="panel panel-body">
+			<form action="{{:url('index/address/add')}}" method="post" class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-3">
+					<label class="control-label">收货人姓名</label>
+					</div>
+					<div class="col-sm-9">
+					<input type="text" name="consignee" value="" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3">
+					<label class="control-label">收货人电话</label>
+					</div>
+					<div class="col-sm-9">
+					<input type="text" name="phone" value="" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-3">
+						<label class="control-label">所在地址</label>
+					</div>
+					<div class="col-sm-9">
+						<div class="row">
+							<div class="col-sm-4">
+								<select name="province_id" id="province_id" class="form-control">
+									<option value="">省份</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select name="city_id" class="form-control" id="city_id">
+									<option value="">城市</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select name="district_id" class="form-control" class="district_id" id="district_id">
+									<option value="">区县</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="form-group">
+					<div class="col-sm-3">
+					<label class="control-label">详细地址</label>
+					</div>
+					<div class="col-sm-9">
+					<input type="text" name="address" value="" class="form-control">
+					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button class="btn btn-success">确认添加</button>
+					<button class="btn btn-danger">取消添加</button>
+				</div>
+			</div>
+			</form>
+			</div>
+	</div>
+		<div class="panel panel-danger">
+			<div class="panel panel-heading">
+				<h3 class="panel-title">收货地址列表</h3>
+			</div>
+			<div class="panel panel-body">
+				<table class="table table-condensed table-hover table-striped table-bordered">
+					<tr>
+						<td>收货人</td>
+						<td>收货地址</td>
+						<td>电话</td>
+						<td>是否默认</td>
+						<td>操作</td>
+					</tr>
+					{{volist name="list" id="vo"}}
+					<tr {{if condition="$vo.status==1"}}class="success"{{/if}}>
+						<td>{{$vo.consignee}}</td>
+						<td>{{$vo->province->name}}
+							{{$vo->city->name}}
+							{{$vo->district->name}}
+							{{$vo.address}}
+						</td>
+						<td>{{$vo.phone}}</td>
+						<td>{{$vo.status}}</td>
+						<td>
+							{{if condition="$vo.status==1"}}
+							<a href="#"  class="btn btn-danger">设置默认</a>
+							{{else /}}
+							<a href="{{:url('index/address/set',['id'=>$vo.id])}}" class="btn btn-danger">设置默认</a>
+							{{/if}}
+							
+							<a href="" class="btn btn-primary">编辑</a>
+							<a href="" class="btn btn-danger">删除</a>
+						</td>
+					</tr>
+					{{/volist}}
+				</table>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{{/block}}
+{{block name="js"}}
+<script type="text/javascript">
+	$(document).ready(function(){
+	$.ajax({
+		type: 'get',
+		url: '{{:url("index/address/region")}}',
+		data: { parentid: 0 },
+		dataType: "json",
+		success: function (res) {
+			// console.log(res);
+			$.each(res, function (k, v) {
+                var firstletter = v['firstletter'];
+                var name = v['name'];
+                var id = v['id']; //省份的id
+                var val = '<option value="' + id + '">' + firstletter + ' ' + name + '</option>';
+                //添加到下拉列表中
+                $('[name="province_id"]').append(val);
+            });
+		}
+	});
+});
+
+// 点选省份,查看省份下的城市
+$('[name="province_id"]').change(function () {
+    //保留第一项
+    $('[name="city_id"]').children().first().nextAll().remove();
+    //省份变化时: 城市 和 区县都要联动
+    $('[name="district_id"]').children().first().nextAll().remove();
+    var id = $(this).val(); //获取选择的省份的id
+    // 如果id是空,就说明选择的是省份, 终止执行ajax,不读数据
+    if(id == false){
+        return;  //终止执行
+    }
+
+    // 此id是省份的id, 传递是为了拿到此省份下的所有城市
+    // 所以此id是城市的 父id
+    $.ajax({
+        type: "get",
+        url: '{{:url("index/address/region")}}',
+        data: { parentid: id },
+        dataType: "json",
+        success: function (response) {
+            $.each(response, function (k, v) {
+                var firstletter = v['firstletter'];
+                var name = v['name'];
+                var id = v['id']; //省份的id
+                var val = '<option value="' + id + '">' + firstletter + ' ' + name + '</option>';
+                //添加到下拉列表中
+                $('[name="city_id"]').append(val);
+            });
+        }
+    });
+});
+
+// 点选城市,返回城市下的区县
+$('[name="city_id"]').change(function () {
+    //删除区县下方,除了第一项以外的
+    $('[name="district_id"]').children().first().nextAll().remove();
+    var id = $(this).val();
+    //选择城市, 则value是空, 不需要发送ajax请求
+    if (id == false){
+        return;
+    }
+
+    //传递区县的父id 给后台, 后台就会查询出所有的区县
+    $.ajax({
+        type: "get",
+        url: '{{:url("index/address/region")}}',
+        data: { parentid: id },
+        dataType: "json",
+        success: function (response) {
+            $.each(response, function (k, v) {
+                var firstletter = v['firstletter'];
+                var name = v['name'];
+                var id = v['id']; 
+                var val = '<option value="' + id + '">' + firstletter + ' ' + name + '</option>';
+                //添加到下拉列表中
+                $('[name="district_id"]').append(val);
+            });
+        }
+    });
+});
+</script>
+{{/block}}
